@@ -1,11 +1,14 @@
-import React, { use } from 'react';
+ 
+ 
 import { NavLink } from 'react-router';
 import { AuthContext } from '../contextAPI/AuthContext';
+import { use } from 'react';
+ 
 
 const Navber = () => {
     
-    const userInfo =  use(AuthContext);
-    console.log( "asi ami asi" ,userInfo)
+  const userInfo = use(AuthContext);
+  console.log(userInfo)
   
 
     const links = <>
