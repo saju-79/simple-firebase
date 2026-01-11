@@ -1,20 +1,33 @@
  
  
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { AuthContext } from '../contextAPI/AuthContext';
 import { use } from 'react';
+import { auth } from '../fireabse/_firebase';
+// import { use } from 'react';
  
 
 const Navber = () => {
     
-  const userInfo = use(AuthContext);
-  console.log(userInfo)
-  
+
+
+  const {user , logOut} = use(AuthContext);
+  const handeSignOut = () =>{
+     logOut(auth).then(() =>{
+      console.log('logout successfull');
+    })
+    .catch(error =>{
+      console.log(error)
+    })
+  }
 
     const links = <>
-     <li> <NavLink className={({isActive}) => isActive ? "  border-b border-b-blue-700" : ""} to="/">home </NavLink> </li>
-     <li> <NavLink  className={({isActive}) => isActive ? "  border-b border-b-blue-700" : ""} to="/login">  login </NavLink> </li>
-     <li> <NavLink className={({isActive}) => isActive ? "  border-b border-b-blue-700" : ""} to="/signup"> signup </NavLink> </li>
+     <li> <NavLink className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/">Home </NavLink> </li>
+     <li> <NavLink  className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/login">  Login </NavLink> </li>
+     <li> <NavLink className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/signup"> SignUp </NavLink> </li>
+     <li> <NavLink className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/desbord"> DesBord </NavLink> </li>
+     {user && <><li> <NavLink className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/profile"> Profile </NavLink> </li>
+     <li> <NavLink className={({isActive}) => isActive ? "  border-b-4 border-b-blue-700" : ""} to="/orders"> Orders </NavLink> </li> </>}
     </>
 
   
@@ -39,7 +52,10 @@ const Navber = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+   { user ? <>
+           <span className=' mr-4 text-black font-bold text-lg'>{user.email}</span>
+     <button onClick={handeSignOut} className='btn btn-primary'> <Link to="/login">LogOut</Link></button>
+   </> :  <button className='btn btn-primary'> <Link to="/login">LogIn</Link></button>}
   </div>
 </div>  
     );
